@@ -8,7 +8,7 @@
 namespace TurnCypher\Weather\Clients;
 
 use GuzzleHttp\Client as Guzzle;
-
+use TurnCypher\Weather\Clients\Client;
 class SeniverseClient implements Client
 {
     const API_NOW = 'https://api.seniverse.com/v3/weather/now.json';
@@ -21,10 +21,9 @@ class SeniverseClient implements Client
      * @param $apiKey
      * @param Client $guzzle
      */
-    public function __construct($apiKey, Guzzle $guzzle)
+    public function __construct()
     {
-        $this->apiKey = $apiKey;
-        $this->guzzle = $guzzle;
+        $this->guzzle = new Guzzle();
     }
 
     public function now($city){
