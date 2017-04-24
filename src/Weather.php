@@ -7,7 +7,7 @@
  */
 namespace TurnCypher\Weather;
 
-
+use TurnCypher\Weather\Clients\Client;
 class Weather
 {
     private $client;
