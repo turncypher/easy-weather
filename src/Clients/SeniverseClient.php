@@ -34,6 +34,7 @@ class SeniverseClient implements Client
             'key' => $this->apiKey,
 
         ];
-        return $this->guzzle->request('GET', self::API_NOW, ['query' => $query]);
+        $respose =  $this->guzzle->request('GET', self::API_NOW, ['query' => $query]);
+        return $respose->getBody();
     }
 }
