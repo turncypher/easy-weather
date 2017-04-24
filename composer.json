@@ -1,0 +1,16 @@
+{
+    "name": "turncypher/easy-weather",
+    "description": "simple weather api",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "~6.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "turncypher",
+            "email": "turncypher@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}

@@ -7,7 +7,21 @@
  */
 namespace TurnCypher\Weather;
 
+
 class Weather
 {
+    private $client;
+
+    public function now($city){
+        return $this->client->now($city);
+    }
+
+    /**
+     * @param mixed $client
+     */
+    public function setClient(Client $client)
+    {
+        $this->client = $client;
+    }
 
 }
