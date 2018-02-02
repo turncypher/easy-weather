@@ -9,6 +9,8 @@ namespace TurnCypher\Weather\Clients;
 
 interface Client
 {
-    function now($city);
-    function forecast($city, $start, $days);
+    function now($params);
+    function forecast($params);
+    function suggestion($params);
+    function integration($params);
 }

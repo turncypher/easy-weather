@@ -7,16 +7,16 @@ use Validator;
 use Carbon\Carbon;
 use GuzzleHttp\Client as Guzzle;
 use Illuminate\Foundation\Bus\DispatchesJobs;
-use TurnCypher\Weather\Requests\Heweather\NowRequest;
-use TurnCypher\Weather\Handlers\Heweather\ErrorHandler;
-use TurnCypher\Weather\Requests\Heweather\ForecastRequest;
+use TurnCypher\Weather\Requests\HeweatherV2\NowRequest;
+use TurnCypher\Weather\Handlers\HeweatherV2\ErrorHandler;
+use TurnCypher\Weather\Requests\HeweatherV2\ForecastRequest;
 use TurnCypher\Weather\Exceptions\InvalidParameterException;
-use TurnCypher\Weather\Transformers\Heweather\NowTransformer;
-use TurnCypher\Weather\Requests\Heweather\IntegrationRequest;
-use TurnCypher\Weather\Transformers\Heweather\IntegrationTransformer;
+use TurnCypher\Weather\Transformers\HeweatherV2\NowTransformer;
+use TurnCypher\Weather\Requests\HeweatherV2\IntegrationRequest;
+use TurnCypher\Weather\Transformers\HeweatherV2\IntegrationTransformer;
 
 
-class HeWeatherClient implements Client
+class HeWeatherV2Client implements Client
 {
     use DispatchesJobs;
 
@@ -142,13 +142,12 @@ class HeWeatherClient implements Client
         if (!Cache::has($key)) {
             $response = $this->guzzle->request('GET', self::API_INTEGRATION, ['query' => $request->toArray()]);
             $integration = \GuzzleHttp\json_decode($response->getBody(), true);
-            if ($integration['HeWeather5'][0]['status'] != 'ok') {
+            if ($integration['HeWeather6'][0]['status'] != 'ok') {
                 $this->dispatch(new ErrorHandler($response));
             }
             $refresh = Carbon::now()->addSeconds(config('weather.refreshPeriod'));
             Cache::put($key, $integration, $refresh);
         }
-
         return $this->dispatch(new IntegrationTransformer(Cache::get($key), $request));
     }
 }

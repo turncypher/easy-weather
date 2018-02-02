@@ -1,10 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: emmanuel
- * Date: 17-4-24
- * Time: 下午11:52
+ * user: emmanuel
+ * data: 2017-4-24
  */
+
 namespace TurnCypher\Weather\Clients;
 
 use GuzzleHttp\Client as Guzzle;
@@ -14,9 +13,11 @@ class SeniverseClient implements Client
 {
     private $apiKey;
     private $guzzle;
+    private $cacheKey;
 
-    const API_NOW = 'weather/now.json';
-    const API_FORECAST = 'weather/daily.json';
+    const API_NOW = 'weather/now.json';//实时天气
+    const API_FORECAST = 'weather/daily.json';//未来天气
+    const API_SUGGESTION = 'life/suggestion.json';//生活指数
 
     /**
      * SeniverseClient constructor.
@@ -28,34 +29,45 @@ class SeniverseClient implements Client
     {
         $this->guzzle = new Guzzle(['base_uri' => $config['api_base_url']]);
         $this->apiKey = $config['api_key'];
+        $this->cacheKey = $config['cache_key'];
     }
 
-    public function now($city){
-        $query = [
-            'location' => $city,
-            'lang' => 'zh_Hans',
-            'unit' => 'c',
-            'key' => $this->apiKey,
-        ];
-
-        /**
-         * @var Response $response
-        */
-        $response =  $this->guzzle->request('GET', self::API_NOW, ['query' => $query]);
-        return $response->getBody()->getContents();
-    }
-
-    function forecast($city, $start, $days)
+    public function now($params)
     {
         $query = [
-            'location' => $city,
-            'lang' => 'zh_Hans',
+            'location' => $params['city'],
+            'lang' => isset($params['lang']) ? $params['lang'] : 'zh-Hans',
             'unit' => 'c',
             'key' => $this->apiKey,
-            'start' => $start,
-            'days' => $days
         ];
-        $response =  $this->guzzle->request('GET', self::API_FORECAST, ['query' => $query]);
+        $response = $this->guzzle->request('GET', self::API_NOW, ['query' => $query]);
         return $response->getBody()->getContents();
+    }
+
+    function forecast($params)
+    {
+        $query = [
+            'location' => $params['city'],
+            'lang' => isset($params['lang']) ? $params['lang'] : 'zh-Hans',
+            'unit' => 'c',
+            'key' => $this->apiKey,
+            'start' => $params['start'],
+            'days' => $params['days']
+        ];
+        $response = $this->guzzle->request('GET', self::API_FORECAST, ['query' => $query]);
+        return $response->getBody()->getContents();
+    }
+
+    function suggestion($params)
+    {
+        $query = [
+            'location' => $params['city'],
+            'lang' => isset($params['lang']) ? $params['lang'] : 'zh-Hans',
+            'key' => $this->apiKey,
+        ];
+
+        $response = $this->guzzle->request('GET', self::API_SUGGESTION, ['query' => $query]);
+        return $response->getBody()->getContents();
+
     }
 }

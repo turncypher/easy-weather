@@ -1,20 +1,19 @@
 {
-    "name": "turncypher/easy-weather",
-    "description": "simple weather api",
-    "type": "library",
-    "require": {
-        "guzzlehttp/guzzle": "~6.0"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "turncypher",
-            "email": "turncypher@gmail.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "TurnCypher\\Weather\\": "src/"
-        }
+  "name": "novastar/easy-weather",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Vance Chang",
+      "email": "turncypher@gmail.com"
     }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "~6.0"
+  },
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "NovaStar\\Weather\\": "src/"
+    }
+  }
 }
